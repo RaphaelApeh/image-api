@@ -127,7 +127,7 @@ STATIC_URL = 'static/'
 
 IMAGE_MEDIA_DIR = BASE_DIR.parent / 'media' / 'localfile'
 
-MEDIA_URL = 'media'
+MEDIA_URL = 'media/'
 MEDIA_ROOT = IMAGE_MEDIA_DIR
 
 # Default primary key field type
