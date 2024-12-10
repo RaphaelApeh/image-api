@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import sys
 from pathlib import Path
 
 from decouple import config
@@ -41,11 +41,18 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Third-parties
     'rest_framework',
+    'rest_framework.authtoken',
     'taggit',
+    'tailwind',
+    'django_filters',
+    'theme',
     # Internals
+    'accounts',
     'api',
     'images',
 ]
+
+TAILWIND_APP_NAME = 'theme'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -62,7 +69,7 @@ ROOT_URLCONF = 'home.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -125,7 +132,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-IMAGE_MEDIA_DIR = BASE_DIR.parent / 'media' / 'localfile'
+IMAGE_MEDIA_DIR = BASE_DIR.parent / 'media' 
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = IMAGE_MEDIA_DIR
@@ -134,3 +141,8 @@ MEDIA_ROOT = IMAGE_MEDIA_DIR
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# For Windows Users
+
+if sys.platform.startswith('win'):
+    NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
