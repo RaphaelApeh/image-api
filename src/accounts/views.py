@@ -1,4 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.contrib import messages
+from django.contrib.auth import login, authenticate
 
 from .forms import UserCreationForm
 
@@ -14,6 +17,13 @@ def user_creation_view(request):
 
 def user_login_view(request):
     if request.method == 'POST':
-        ...
+        username = request.POST['username']
+        password = request.POST['password']
+        if all([username, password]):
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'Login successfuly')
+                return HttpResponse(f'{username}')
     context = {}
     return render(request, 'accounts/login.html', context)
