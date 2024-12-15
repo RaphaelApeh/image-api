@@ -15,10 +15,10 @@ class ImageSerializer(TaggitSerializer, serializers.ModelSerializer):
     
     class Meta:
         model = Image
-        fields = ['username', 'name', 'image', 'image_url', 'tags', 'timestamp']
+        fields = ['username', 'name', 'image_url', 'tags', 'timestamp']
 
     def get_username(self, obj):
-        username = obj.user.username
+        username = obj.user.get_full_name() or obj.user.username
         return username
     
     def get_timestamp(self, obj):
