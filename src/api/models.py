@@ -25,6 +25,11 @@ class UserToken(models.Model):
     def save(self, **kwargs):
         super().save(**kwargs)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['token'], name='validate_token')
+        ]
+
 
 def create_token(sender, instance, created, **kwargs):
     if created:

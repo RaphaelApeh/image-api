@@ -1,6 +1,7 @@
 import time
 import typing
-import datetime
+
+from django.utils import timezone
 
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.authtoken.models import Token
@@ -30,20 +31,14 @@ def user_token(token: typing.Type[Token]):
 
     token_key = token.key
     user = token.user
-    try:
-        _user  = UserToken.objects.get(user=user, token=token_key)
-        time.sleep(1.2)
-        _user.attempts += 1
-        if _user.attempts >= _user.max_attempt:
-            _user.expired_at = datetime.datetime.now()
-            _user.expired = True
-        _user.save()
-        return _user
-    except UserToken.DoesNotExist:
-
-        _user = UserToken.objects.create(user=user, token=token_key)
-        _user.created_at = datetime.datetime.now()
-    
-        _user.save()
-
-        return _user
+    _user_token = UserToken.objects.filter(user=user, token=token_key)
+    if not _user_token.exists():
+        return None 
+    _user = _user_token.first()
+    assert user == _user
+    _user.attempts += 1
+    if _user.attempts >= _user.max_attempt:
+        _user.expired = True
+        _user.expired_at = timezone.now()
+    _user.save()
+    return _user
