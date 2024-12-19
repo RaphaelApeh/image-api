@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 
 from .forms import UserCreationForm
 
@@ -30,11 +30,26 @@ def user_login_view(request):
         
         if all([username, password]):
             user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                
+            if user is not None and user.is_active:
+                login(request, user)                
                 messages.success(request, 'Login successfuly')
-                return HttpResponse(f'{username}')
+                return redirect('home-page')
+            elif not user.is_active:
+                return HttpResponse('User is Inactive')
+            else:
+                messages.error(request, 'Invaild data!😡')
+                return redirect('account-login')
     
     context = {}
     return render(request, 'accounts/login.html', context)
+
+
+def user_logout_view(request):
+    
+    if request.method == 'POST':
+        logout(request)
+        messages.success(request, 'Successfuly Logout!')
+        return redirect('home-page')
+    
+    context = {}
+    return render(request,'accounts/login.html', context)
