@@ -44,3 +44,7 @@ class Image(models.Model):
         image = self.image.url
 
         return image
+    
+    def get_username(self):
+        
+        return self.user.get_full_name() or self.user.username

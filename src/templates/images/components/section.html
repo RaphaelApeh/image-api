@@ -3,13 +3,15 @@
 <section class="container mx-auto p-4">
     {% images "Width" %}
     <!-- Nature Section -->
+    {% for obj in queryset %}
+    {% if obj.user == request.user %}
     <div id="nature" class="mt-10 mb-8 cursor-pointer">
-        <h2 class="text-2xl font-bold mb-4">Nature</h2>
+        <h2 class="text-2xl font-bold mb-4">Your Photos</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
             <!-- Nature Photo Card-1 -->
             <div class="relative group">
-                <img src="assets/photos/nature/mark-harpur-K2s_YE031CA-unsplash.jpg" alt="Nature Photo"
+                <img src="{{obj.image.url}}" alt="Nature Photo"
                     class="w-full h-64 object-cover rounded shadow-lg transition duration-300 transform group-hover:scale-105">
 
                 <!-- Overlay Container for Hover Content -->
@@ -17,30 +19,27 @@
                     class="absolute inset-0 bg-black bg-opacity-70 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 p-4 space-y-2">
 
                     <!-- Category Label -->
-                    <p class="text-[#E76F51] text-xl font-semibold">Purple nature</p>
+                    <p class="text-[#E76F51] text-xl font-semibold">{% for x in obj.tags.names %}{{x}} {% endfor %}</p>
 
                     <!-- Author and Description -->
                     <div class="text-center text-gray-300 text-sm sm:text-base">
                         <p class="font-semibold">Photo by <span
-                                class="text-gray-300 cursor-pointer text-gray-400 hover:text-red-600">Mark
-                                Harpur</span></p>
-                        <p class="line-clamp-2 mt-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ullam
-                            laborum perspiciatis alias, id provident rem, maxime accusamus sequi assumenda delectus
-                            vero? Tempore obcaecati placeat tenetur blanditiis eveniet praesentium, atque quia.</p>
+                                class="text-gray-300 cursor-pointer text-gray-400 hover:text-red-600">{{obj.get_username}}</span></p>
+                        <p class="line-clamp-2 mt-2">{{obj.name}}</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Art Section -->
-    <div id="art" class="mt-10 mb-8">
-        <h2 class="text-2xl font-bold mb-4">Art</h2>
+    {% endif %}
+    {% for instance in obj.tags.names %}
+    <div id="nature" class="mt-10 mb-8 cursor-pointer">
+        <h2 class="text-2xl font-bold mb-4">{{instance}}</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-            <!-- Artravel Photo Card-1 -->
+            <!-- Nature Photo Card-1 -->
             <div class="relative group">
-                <img src="assets/photos/art/anna-kolosyuk-D5nh6mCW52c-unsplash.jpg" alt="Art Photo"
+                <img src="{{obj.image.url}}" alt="Nature Photo"
                     class="w-full h-64 object-cover rounded shadow-lg transition duration-300 transform group-hover:scale-105">
 
                 <!-- Overlay Container for Hover Content -->
@@ -48,58 +47,18 @@
                     class="absolute inset-0 bg-black bg-opacity-70 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 p-4 space-y-2">
 
                     <!-- Category Label -->
-                    <p class="text-[#E76F51] text-xl font-semibold">Dirty brushes</p>
+                    <p class="text-[#E76F51] text-xl font-semibold">{{obj.name}}</p>
 
                     <!-- Author and Description -->
                     <div class="text-center text-gray-300 text-sm sm:text-base">
                         <p class="font-semibold">Photo by <span
-                                class="text-gray-300 cursor-pointer text-gray-400 hover:text-red-600">Anna
-                                Kolosyuk</span></p>
-                        <p class="line-clamp-2 mt-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                            Ullam
-                            laborum perspiciatis alias, id provident rem, maxime accusamus sequi assumenda
-                            delectus
-                            vero? Tempore obcaecati placeat tenetur blanditiis eveniet praesentium, atque quia.
-                        </p>
+                                class="text-gray-300 cursor-pointer text-gray-400 hover:text-red-600">{{obj.get_username}}</span></p>
+                        <p class="line-clamp-2 mt-2">tags: {% for x in obj.tags.names %}{{x}} {% endfor %}</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Travel -->
-    <div id="travel" class="mt-10 mb-8">
-        <h2 class="text-2xl font-bold mb-4">Travel</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-            <!-- Travel Photo Card-1 -->
-            <div class="relative group">
-                <img src="assets/photos/travel/kyle-hinkson-xyXcGADvAwE-unsplash.jpg" alt="Travel Photo"
-                    class="w-full h-64 object-cover rounded shadow-lg transition duration-300 transform group-hover:scale-105">
-
-                <!-- Overlay Container for Hover Content -->
-                <div
-                    class="absolute inset-0 bg-black bg-opacity-70 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 p-4 space-y-2">
-
-                    <!-- Category Label -->
-                    <p class="text-[#E76F51] text-xl font-semibold">Peruvian Market</p>
-
-                    <!-- Author and Description -->
-                    <div class="text-center text-gray-300 text-sm sm:text-base">
-                        <p class="font-semibold">Photo by <span
-                                class="text-gray-300 cursor-pointer text-gray-400 hover:text-red-600">Kyle
-                                Hinks</span></p>
-                        <p class="line-clamp-2 mt-2">Lorem ipsum dolor sit, amet consectetur adipisicing
-                            elit.
-                            Ullam
-                            laborum perspiciatis alias, id provident rem, maxime accusamus sequi assumenda
-                            delectus
-                            vero? Tempore obcaecati placeat tenetur blanditiis eveniet praesentium, atque
-                            quia.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% endfor %}
+    {% endfor %}
 </section>

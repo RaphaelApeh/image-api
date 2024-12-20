@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 
@@ -8,7 +9,7 @@ from .forms import UserCreationForm
 
 def user_creation_view(request):
     if request.user.is_authenticated:
-        return redirect('/')
+        return redirect('home-page')
     form = UserCreationForm(request.POST or None)
     if form.is_valid():
         form.save()
@@ -16,7 +17,7 @@ def user_creation_view(request):
         password = form.cleaned_data.get('password1')
         user = authenticate(request, username=username, password=password)
         login(request, user)
-        return HttpResponse('Hello world %s' % user.username)
+        return redirect('home-page')
     context = {
         'form': form
     }
@@ -24,6 +25,8 @@ def user_creation_view(request):
 
 
 def user_login_view(request):
+    if request.user.is_authenticated:
+        return redirect('home-page')
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -45,11 +48,12 @@ def user_login_view(request):
 
 
 def user_logout_view(request):
-    
+    if request.user.is_anonymous:
+        return redirect(settings.LOGIN_URL) # by default '/accounts/login/
     if request.method == 'POST':
         logout(request)
         messages.success(request, 'Successfuly Logout!')
-        return redirect('home-page')
+        return redirect('account-login')
     
     context = {}
     return render(request,'accounts/login.html', context)
