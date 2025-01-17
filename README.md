@@ -9,7 +9,7 @@ technologies: <a href="https://docs.djangoproject.com/">django</a>, <a href="htt
 ```bash
 python -m venv venv
 ```
-- Activate the environment
+- Activate the environment 🕹
     - windows
     ```bash
     .\venv\scripts\activate

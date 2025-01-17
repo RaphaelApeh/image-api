@@ -140,6 +140,8 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
 IMAGE_MEDIA_DIR = BASE_DIR.parent / 'media' 
 
 MEDIA_URL = 'media/'

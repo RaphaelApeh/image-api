@@ -8,7 +8,6 @@ sqlparse==0.5.2
 tzdata==2024.2
 python-decouple
 cloudinary
-streamlit
 requests
 django-tailwind
 django-filter
